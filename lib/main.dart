@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hello_flutter/answer.dart';
-import 'package:hello_flutter/question.dart';
 import 'package:hello_flutter/quiz.dart';
 import 'package:hello_flutter/result.dart';
 
@@ -18,8 +16,16 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
+  var _totalScore = 0;
 
-  void _answerQuestion() {
+  void _resetQuiz(){
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
+    });
+  }
+  void _answerQuestion(int score) {
+    _totalScore += score;
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
@@ -30,15 +36,41 @@ class _MyAppState extends State<MyApp> {
     const _questions = [
       {
         'question': "What's your favorite color",
-        'answers': ['Red', 'Green', 'Blue', 'Yellow']
+        'answers': [
+          {
+            'text': 'Red',
+            'score': 4,
+          },
+          {
+            'text': 'Green',
+            'score': 3,
+          },
+          {
+            'text': 'Blue',
+            'score': 5,
+          },
+          {
+            'text': 'Yellow',
+            'score': 7,
+          },
+        ]
       },
       {
         'question': "What's your favorite animal",
-        'answers': ['dog', 'cat', 'rabbit']
-      },
-      {
-        'question': "What's your favorite color",
-        'answers': ['Red', 'Green', 'Blue', 'Yellow']
+        'answers': [
+          {
+            'text': 'dog',
+            'score': 3,
+          },
+          {
+            'text': 'cat',
+            'score': 1,
+          },
+          {
+            'text': 'rabbit',
+            'score': 6,
+          },
+        ]
       },
     ];
     return MaterialApp(
@@ -52,7 +84,7 @@ class _MyAppState extends State<MyApp> {
                 _questions,
                 _questionIndex,
               )
-            : const Result(),
+            : Result(_totalScore, _resetQuiz),
       ),
     );
   }
