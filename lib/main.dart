@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hello_flutter/answer.dart';
 import 'package:hello_flutter/question.dart';
+import 'package:hello_flutter/quiz.dart';
+import 'package:hello_flutter/result.dart';
 
 void main() => runApp(const MyApp());
 
@@ -25,7 +27,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    const questions = [
+    const _questions = [
       {
         'question': "What's your favorite color",
         'answers': ['Red', 'Green', 'Blue', 'Yellow']
@@ -44,21 +46,13 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Title'),
         ),
-        body: _questionIndex < questions.length
-            ? Column(
-                children: [
-                  Question(
-                    questions[_questionIndex]['question'].toString(),
-                  ),
-                  ...(questions[_questionIndex]['answers'] as List<String>)
-                      .map((answer) {
-                    return Answer(_answerQuestion, answer);
-                  })
-                ],
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                _answerQuestion,
+                _questions,
+                _questionIndex,
               )
-            : Center(
-                child: Text('You did it'),
-              ),
+            : const Result(),
       ),
     );
   }
